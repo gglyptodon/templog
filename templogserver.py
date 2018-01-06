@@ -19,14 +19,15 @@ def run_server(address="localhost", port=10000):
         connection, client_address = sock.accept()
         try:
             print >>sys.stderr, 'connection from', client_address
-
+            reply = ",".join([str(x) for x in tempmon.get_hum_temp()])
             # Receive the data in small chunks and retransmit it
             while True:
                 data = connection.recv(16)
                 print >>sys.stderr, 'received "%s"' % data
                 if data:
                     print >>sys.stderr, 'sending data back to the client'
-                    connection.sendall(data)
+                    #connection.sendall(data)
+                    connection.sendall(reply)
                 else:
                     print >>sys.stderr, 'no more data from', client_address
                     break
